@@ -22,13 +22,15 @@ Endpoints:
 	e.g. http://localhost:8080/points?userName=FetchRewards
 	
 2. http://localhost:8080/addPoints?userName=<userName>&payerName=<payerName>&points=<points> (POST)
-	takes 3 query parameters userName, payerName and Points (can be positive or negative points)
+	takes 3 query parameters userName, payerName and Points (can be positive or negative points) and adds points to transactions
+	returns Success or Exception (Low Balance)
 	e.g.
 	http://localhost:8080/addPoints?userName=FetchRewards&payerName=newPayr1&points=1000
 	http://localhost:8080/addPoints?userName=FetchRewards&payerName=newPayr1&points=-500
 	
 3. http://localhost:8080/deductPoints?userName=<userName>&points=<points>
-	takes userName and points to be deducted ( can be positive points)
+	takes userName and points to be deducted ( can be positive points) and deduct points from users points
+	returns Success or Exception (Negative Points or Low Balance)
 	e.g. http://localhost:8080/deductPoints?userName=FetchRewards&points=900
 
 	
