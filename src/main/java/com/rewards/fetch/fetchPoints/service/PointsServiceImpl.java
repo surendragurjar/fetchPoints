@@ -89,8 +89,6 @@ public class PointsServiceImpl implements PointsService {
 		if(deductPoints <= 0) {
 			throw new PointsException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);	
 		}
-		
-		//List<Record> result = new ArrayList<>();
 
 		int totalPoints = lstTransactions.stream().filter(a -> a.getUserName().equalsIgnoreCase(userName))
 				.mapToInt(a -> a.getPoints()).sum();
