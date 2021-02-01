@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.rewards.fetch.fetchPoints.exception.ExceptionResponse;
-import com.rewards.fetch.fetchPoints.exception.LowBalanceException;
+import com.rewards.fetch.fetchPoints.exception.PointsException;
 
 @ControllerAdvice
 public class PointsExceptionHandler {
 
-	 @ExceptionHandler(LowBalanceException.class)
-	    public ResponseEntity<ExceptionResponse> customException(LowBalanceException ex) {
+	 @ExceptionHandler(PointsException.class)
+	    public ResponseEntity<ExceptionResponse> customException(PointsException ex) {
 	        ExceptionResponse response=new ExceptionResponse();
 	        response.setErrorCode("BAD_REQUEST");
 	        response.setErrorMessage(ex.getMessage());

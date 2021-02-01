@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rewards.fetch.fetchPoints.exception.LowBalanceException;
+import com.rewards.fetch.fetchPoints.exception.PointsException;
 import com.rewards.fetch.fetchPoints.model.Record;
 import com.rewards.fetch.fetchPoints.service.PointsService;
 
@@ -26,13 +26,13 @@ public class PointsController {
 	@PostMapping("/addPoints")
 	public String addPoints(@RequestParam(value = "userName", defaultValue = "") String userName,
 			@RequestParam(value = "payerName", defaultValue = "") String payerName,
-			@RequestParam(value = "points", defaultValue = "0") int points) throws LowBalanceException {
+			@RequestParam(value = "points", defaultValue = "0") int points) throws PointsException {
 		return pointService.addPoints(userName, payerName, points);
 	}
 
 	@PostMapping("/deductPoints")
 	public String deductPoints(@RequestParam(value = "userName", defaultValue = "") String userName,
-			@RequestParam(value = "points", defaultValue = "0") int points) throws LowBalanceException {
+			@RequestParam(value = "points", defaultValue = "0") int points) throws PointsException {
 		return pointService.duductPoints(userName, points);
 	}
 

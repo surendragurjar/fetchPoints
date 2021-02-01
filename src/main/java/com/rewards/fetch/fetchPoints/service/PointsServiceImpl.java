@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.rewards.fetch.fetchPoints.constants.PointsConstanst;
-import com.rewards.fetch.fetchPoints.exception.LowBalanceException;
+import com.rewards.fetch.fetchPoints.exception.PointsException;
 import com.rewards.fetch.fetchPoints.model.Record;
 
 @Service
@@ -18,7 +18,7 @@ public class PointsServiceImpl implements PointsService {
 	public List<Record> lstTransactions = new ArrayList<>();
 
 	@Override
-	public String addPoints(String userName, String payerName, int points) throws LowBalanceException {
+	public String addPoints(String userName, String payerName, int points) throws PointsException {
 
 		int updatedTransactionId = 0;
 
@@ -41,7 +41,7 @@ public class PointsServiceImpl implements PointsService {
 					.mapToInt(a -> a.getPoints()).sum();
 
 			if (totalPointsForPayer < negativePoints) {
-				throw new LowBalanceException(PointsConstanst.LOW_BALANCE_MESSAGE);
+				throw new PointsException(PointsConstanst.LOW_BALANCE_MESSAGE);
 			} else {
 				Record newRecord = new Record();
 				newRecord.setUserName(userName);
@@ -84,10 +84,10 @@ public class PointsServiceImpl implements PointsService {
 	}
 
 	@Override
-	public String duductPoints(String userName, int deductPoints) throws LowBalanceException {
+	public String duductPoints(String userName, int deductPoints) throws PointsException {
 		
 		if(deductPoints <= 0) {
-			throw new LowBalanceException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);	
+			throw new PointsException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);	
 		}
 		
 		//List<Record> result = new ArrayList<>();
@@ -97,7 +97,7 @@ public class PointsServiceImpl implements PointsService {
 		int updatedTransactionId = 0;
 
 		if (totalPoints < deductPoints) {
-			throw new LowBalanceException(PointsConstanst.LOW_BALANCE_MESSAGE);
+			throw new PointsException(PointsConstanst.LOW_BALANCE_MESSAGE);
 		} else {
 			// adding entry to transactions for tracking purpose
 			Record newRecord = new Record();
