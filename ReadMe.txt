@@ -1,15 +1,15 @@
 Instructions 
 
-How to run the application:
-- Download the project fetchPoints from Git
-- Import as maven project in Eclipse
-- Run the project 
-
 Overview:
 This application has 3 endpoints to manage user points with payers 
 
 Language / Technologies:
-Java, Spring Boot 
+Java, Spring Boot
+
+How to run the application:
+- Download the project fetchPoints from Git
+- Import as maven project in Eclipse
+- Run the project from /fetchPoints/src/main/java/com/rewards/fetch/fetchPoints/FetchPointsApplication.java
 
 Assumptions:
 - If user does not have balance and deduct call is made application should throw the Low Balance Exception 
