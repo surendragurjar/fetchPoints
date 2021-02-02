@@ -8,12 +8,15 @@ How to run the application:
 Overview:
 This application has 3 endpoints to manage user points with payers 
 
+Language / Technologies:
+Java, Spring Boot 
+
 Assumptions:
 - If user does not have balance and deduct call is made application should throw the Low Balance Exception 
 - in Deduct endpoints only positive points are allowed
 - While adding point to payer if points are negative 
-1. deduct the points from existing payer points (if points available)
-2. throw Low Balance Exception (if sufficient points not available)
+	1. deduct the points from existing payer points (if points available)
+	2. throw Low Balance Exception (if sufficient points not available)
 
 Endpoints:
 

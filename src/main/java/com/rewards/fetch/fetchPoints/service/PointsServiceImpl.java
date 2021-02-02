@@ -14,8 +14,19 @@ import com.rewards.fetch.fetchPoints.model.Record;
 @Service
 public class PointsServiceImpl implements PointsService {
 
-	// static variable to maintain transaction list
+	// variable to maintain transaction list
 	public List<Record> lstTransactions = new ArrayList<>();
+
+	@Override
+	public List<Record> getPoints(String userName) {
+		List<Record> result = new ArrayList<>();
+		for (Record record : lstTransactions) {
+			if (record.getUserName().equalsIgnoreCase(userName)) {
+				result.add(record);
+			}
+		}
+		return result;
+	}
 
 	@Override
 	public String addPoints(String userName, String payerName, int points) throws PointsException {
@@ -36,8 +47,9 @@ public class PointsServiceImpl implements PointsService {
 			int negativePoints = Math.abs(points);
 
 			// check if payer has balance points
-			int totalPointsForPayer = lstTransactions.stream().filter(
-					record -> (record.getUserName().equalsIgnoreCase(userName) && record.getPayerName().equalsIgnoreCase(payerName)))
+			int totalPointsForPayer = lstTransactions.stream()
+					.filter(record -> (record.getUserName().equalsIgnoreCase(userName)
+							&& record.getPayerName().equalsIgnoreCase(payerName)))
 					.mapToInt(a -> a.getPoints()).sum();
 
 			if (totalPointsForPayer < negativePoints) {
@@ -59,7 +71,7 @@ public class PointsServiceImpl implements PointsService {
 
 			// iterate transaction list and deduct amount from payer balance points
 			for (Record record : lstTransactions) {
-				if (record.getUserName().equalsIgnoreCase(userName) 
+				if (record.getUserName().equalsIgnoreCase(userName)
 						&& record.getPayerName().equalsIgnoreCase(payerName)) {
 					if (record.getPoints() >= negativePoints) { // deduct the amount and break
 						int remainingPoints = record.getPoints() - negativePoints;
@@ -85,9 +97,9 @@ public class PointsServiceImpl implements PointsService {
 
 	@Override
 	public String duductPoints(String userName, int deductPoints) throws PointsException {
-		
-		if(deductPoints <= 0) {
-			throw new PointsException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);	
+
+		if (deductPoints <= 0) {
+			throw new PointsException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);
 		}
 
 		int totalPoints = lstTransactions.stream().filter(a -> a.getUserName().equalsIgnoreCase(userName))
@@ -130,19 +142,6 @@ public class PointsServiceImpl implements PointsService {
 		}
 
 		return "Success";
-	}
-
-	@Override
-	public List<Record> getPoints(String userName) {
-		List<Record> result = new ArrayList<>();
-		for (Record record : lstTransactions) {
-			if (record.getUserName().equalsIgnoreCase(userName)) {
-				result.add(record);
-			}
-		}
-		// result = (List<Record>) lstTransactions.stream().filter(a ->
-		// a.getUserName().equalsIgnoreCase(userName));
-		return result;
 	}
 
 }
