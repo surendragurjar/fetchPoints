@@ -1,6 +1,5 @@
 package com.rewards.fetch.fetchPoints.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 

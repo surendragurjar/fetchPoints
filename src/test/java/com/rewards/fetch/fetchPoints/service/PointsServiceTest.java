@@ -24,7 +24,7 @@ public class PointsServiceTest {
 		String result = pointsServiceImpl.addPoints("Surendra", "Marianos", 500);
 		assertEquals("Success", result);
 	}
-	
+
 	@Test
 	public void testAddPoints_LowBalanceException() {
 		pointsServiceImpl.addPoints("Surendra", "Marianos", 500);
@@ -37,7 +37,6 @@ public class PointsServiceTest {
 	public void testDeductPointsMethod() {
 		pointsServiceImpl.addPoints("Surendra", "Marianos", 500);
 		String result = pointsServiceImpl.duductPoints("Surendra", 300);
-
 		assertEquals("Success", result);
 	}
 
@@ -48,7 +47,7 @@ public class PointsServiceTest {
 				() -> pointsServiceImpl.duductPoints("Surendra", 8000));
 		assertEquals(PointsConstanst.LOW_BALANCE_MESSAGE, exception.getMessage());
 	}
-	
+
 	@Test
 	public void testDeductPoints_NegativePointsException() {
 		Throwable exception = assertThrows(PointsException.class,

@@ -13,14 +13,14 @@ import com.rewards.fetch.fetchPoints.exception.PointsException;
 @ControllerAdvice
 public class PointsExceptionHandler {
 
-	 @ExceptionHandler(PointsException.class)
-	    public ResponseEntity<ExceptionResponse> customException(PointsException ex) {
-	        ExceptionResponse response=new ExceptionResponse();
-	        response.setErrorCode("BAD_REQUEST");
-	        response.setErrorMessage(ex.getMessage());
-	        response.setTimestamp(LocalDateTime.now());
+	@ExceptionHandler(PointsException.class)
+	public ResponseEntity<ExceptionResponse> customException(PointsException ex) {
+		ExceptionResponse response = new ExceptionResponse();
+		response.setErrorCode("BAD_REQUEST");
+		response.setErrorMessage(ex.getMessage());
+		response.setTimestamp(LocalDateTime.now());
 
-	        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
-	    }
-	 
+		return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
+	}
+
 }

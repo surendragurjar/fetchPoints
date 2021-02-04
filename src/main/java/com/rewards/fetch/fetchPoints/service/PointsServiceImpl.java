@@ -1,7 +1,6 @@
 package com.rewards.fetch.fetchPoints.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -48,12 +47,13 @@ public class PointsServiceImpl implements PointsService {
 			if (totalPointsForPayer < negativePoints) {
 				throw new PointsException(PointsConstanst.LOW_BALANCE_MESSAGE);
 			} else {
-				Record newRecord = addRecord(userName, payerName, points, points);
+				// making entry to keep record of negative points request
+				Record newRecord = addRecord(userName, payerName, 0, points);
 				updatedTransactionId = newRecord.getId();
 			}
 
 			// sort the transaction based on date
-			Collections.sort(lstTransactions);
+			lstTransactions.sort(null);
 
 			// iterate transaction list and deduct amount from payer balance points
 			for (Record record : lstTransactions) {
@@ -81,28 +81,28 @@ public class PointsServiceImpl implements PointsService {
 
 	@Override
 	public String duductPoints(String userName, int deductPoints) throws PointsException {
-		
+
 		int updatedTransactionId = 0;
 
 		if (deductPoints <= 0) {
 			throw new PointsException(PointsConstanst.NEGATIVE_POINTS_MESSAGE);
 		}
 
-		// calculate total points 
+		// calculate total points
 		int totalPoints = lstTransactions.stream().filter(a -> a.getUserName().equalsIgnoreCase(userName))
 				.mapToInt(a -> a.getPoints()).sum();
-		
-		// throw exception if points are less then total points 
+
+		// throw exception if points are less then total points
 		if (totalPoints < deductPoints) {
 			throw new PointsException(PointsConstanst.LOW_BALANCE_MESSAGE);
 		} else {
-			// adding entry to transactions for tracking purpose			
-			Record newRecord = addRecord(userName, "Deduct Operation", 0, deductPoints);
+			// adding entry to transactions for tracking purpose
+			Record newRecord = addRecord(userName, "Deduct Operation", 0, deductPoints * -1);
 			updatedTransactionId = newRecord.getId();
 		}
 
 		// sort the transaction based on date
-		Collections.sort(lstTransactions);
+		lstTransactions.sort(null);
 
 		for (Record record : lstTransactions) {
 			if (record.getUserName().equalsIgnoreCase(userName)) {
@@ -119,27 +119,37 @@ public class PointsServiceImpl implements PointsService {
 			}
 		}
 
-		return "Success";
-	}	
-	
+		return "Success"; // deductedRecords(updatedTransactionId);
+	}
+
 	private Record addRecord(String userName, String payerName, int points, int initialPoints) {
 		Record newRecord = new Record();
 		newRecord.setUserName(userName);
-		newRecord.setPayerName(payerName);		
+		newRecord.setPayerName(payerName);
 		newRecord.setPoints(points);
 		newRecord.setTransactionDate(new Date());
-		
-		//set initial point for tracking purpose
+
+		// set initial point for tracking purpose
 		newRecord.setInitialPoints(initialPoints);
-		
-		// add record to transaction list 
+
+		// add record to transaction list
 		lstTransactions.add(newRecord);
 		return newRecord;
 	}
-	
+
 	private void updateRecord(Record record, int points, int updatedTransactionId) {
 		record.setPoints(points);
 		record.setUpdatedTransactionId(String.valueOf(updatedTransactionId));
 	}
+
+	/*
+	 * private List<Record> deductedRecords(int updatedTransactionId) { List<Record>
+	 * deductedRecords = new ArrayList<>(); for (Record record : lstTransactions) {
+	 * if (record.getUpdatedTransactionId() != null &&
+	 * record.getUpdatedTransactionId().equals(String.valueOf(updatedTransactionId))
+	 * ) { deductedRecords.add(record); } } return deductedRecords;
+	 * 
+	 * }
+	 */
 
 }
